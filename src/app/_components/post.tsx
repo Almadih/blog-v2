@@ -2,13 +2,10 @@ import { Post as PostType } from "@/interfaces/post";
 import { ArrowRight, Calendar, Clock, Eye, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useReadingTime } from "react-hook-reading-time";
 import Tag from "./tag";
+import ReadTime from "./read-time";
 
 export default function Post({ post }: { post: PostType }) {
-  const {
-    text, // 1 min read
-  } = useReadingTime(post.content);
   return (
     <div
       key={post.slug}
@@ -46,7 +43,7 @@ export default function Post({ post }: { post: PostType }) {
             </div>
             <div className="flex items-center">
               <Clock className="h-4 w-4 mr-1" />
-              {text}
+              <ReadTime text={post.content} />
             </div>
           </div>
         </div>

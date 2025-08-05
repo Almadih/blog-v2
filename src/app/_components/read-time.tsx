@@ -1,8 +1,7 @@
 "use client";
-
-import { useReadingTime } from "react-hook-reading-time";
+import readingTime from "reading-time";
 
 export default function ReadTime({ text }: { text: string }) {
-  const { text: readTime } = useReadingTime(text);
+  const { text: readTime } = readingTime(text);
   return readTime;
 }
