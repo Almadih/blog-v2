@@ -10,6 +10,7 @@
     "@eslint/js": "^9.32.0",
     "@next/eslint-plugin-next": "^15.4.5",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@vercel/analytics": "^1.5.0",
     "classnames": "^2.5.1",
     "date-fns": "^3.6.0",
     "eslint": "^9.32.0",
