@@ -1,13 +1,34 @@
+"use client";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { Post } from "@/interfaces/post";
+import SocialShare from "./social-share";
+import { Suspense } from "react";
 
-const Header = () => {
+const Header = ({
+  showShare = false,
+  post,
+}: {
+  showShare?: boolean;
+  post?: Post;
+}) => {
   return (
-    <h2 className="text-2xl md:text-4xl font-bold tracking-tight md:tracking-tighter leading-tight mb-20 mt-8 flex items-center">
-      <Link href="/" className="hover:underline">
-        Blog
-      </Link>
-      .
-    </h2>
+    <header className=" border-b border-white/10 bg-black/20 backdrop-blur-xl supports-[backdrop-filter]:bg-black/20 sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <Link
+            href="/"
+            className="flex items-center space-x-2 text-sm font-medium text-white/80 hover:text-white transition-colors group"
+          >
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Back to Blog</span>
+          </Link>
+          {showShare && post && (
+            <Suspense fallback={<></>}>{<SocialShare post={post} />}</Suspense>
+          )}
+        </div>
+      </div>
+    </header>
   );
 };
 
