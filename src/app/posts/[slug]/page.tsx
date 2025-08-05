@@ -161,7 +161,7 @@ export async function generateMetadata({
   const title = `${post.title} | DevCraft`;
 
   return {
-    metadataBase: new URL("https://7182b830ca02.ngrok-free.app"),
+    metadataBase: new URL("https://blog.almadih.dev"),
     title,
     openGraph: {
       title,
