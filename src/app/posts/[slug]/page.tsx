@@ -156,8 +156,6 @@ export async function generateMetadata({
     return notFound();
   }
 
-  console.log(post.ogImage.url);
-
   const title = `${post.title} | DevCraft`;
 
   return {
