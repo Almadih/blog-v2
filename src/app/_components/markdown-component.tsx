@@ -1,7 +1,7 @@
 "use client";
 import Markdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default function MarkdownComponent({ content }: { content: string }) {
   return (
@@ -12,9 +12,10 @@ export default function MarkdownComponent({ content }: { content: string }) {
           const match = /language-(\w+)/.exec(className || "");
           return match ? (
             <SyntaxHighlighter
+              showLineNumbers
               PreTag="div"
               language={match[1]}
-              style={a11yDark}
+              style={dracula}
             >
               {String(children).replace(/\n$/, "")}
             </SyntaxHighlighter>
