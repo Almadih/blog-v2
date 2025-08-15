@@ -55,7 +55,15 @@ export default function RootLayout({
       <body
         className={cn(inter.className, "dark:bg-slate-900 dark:text-slate-400")}
       >
-        <div className="min-h-screen">{children}</div>
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-slate-100">
+          {/* Animated Background - UPDATED: Blob colors now match the new cyan/indigo theme. */}
+          <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+            <div className="absolute -top-40 -right-40 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-15 animate-pulse" />
+            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-15 animate-pulse animation-delay-2000" />
+            <div className="absolute top-40 left-1/2 w-80 h-80 bg-teal-500 rounded-full mix-blend-multiply filter blur-xl opacity-15 animate-pulse animation-delay-4000" />
+          </div>
+          {children}
+        </div>
         <Analytics />
       </body>
     </html>

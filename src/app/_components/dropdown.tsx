@@ -34,9 +34,21 @@ export default function Dropdown({
       </button>
 
       {open && (
-        <div className="absolute left-1/2 transform -translate-x-1/2 z-10 mt-2 w-48 origin-top rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full w-0 h-0 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent border-b-white"></div>
-
+        <div
+          className="
+    absolute z-10 mt-2 w-48 origin-top rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5
+    lg:left-1/2 lg:transform lg:-translate-x-1/2 
+    right-0 transform-none
+  "
+        >
+          {/* Small triangle */}
+          <div
+            className="
+      absolute top-0 -translate-y-full w-0 h-0 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent border-b-white
+      lg:left-1/2 lg:-translate-x-1/2
+      right-4 translate-x-0
+    "
+          ></div>
           <div className="py-1">{children}</div>
         </div>
       )}

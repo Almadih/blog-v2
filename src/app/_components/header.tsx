@@ -20,12 +20,10 @@ const Header = ({
             href="/"
             className="flex items-center space-x-2 text-sm font-medium text-white/80 hover:text-white transition-colors group"
           >
-            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+            <ArrowLeft className="inline-block h-4 w-4 group-hover:-translate-x-1 transition-transform" />
             <span>Back to Blog</span>
           </Link>
-          {showShare && post && (
-            <Suspense fallback={<></>}>{<SocialShare post={post} />}</Suspense>
-          )}
+          {showShare && post && <SocialShare post={post} />}
         </div>
       </div>
     </header>

@@ -30,7 +30,7 @@ export default function SocialShare({ post }: { post: Post }) {
         >
           <div className="flex items-center space-x-2 pl-3 hover:bg-gray-100 p-2">
             <FacebookIcon size={24} round />
-            <span>Share on Facebook</span>
+            <span className="text-gray-700">Share on Facebook</span>
           </div>
         </FacebookShareButton>
         <TwitterShareButton
@@ -40,7 +40,7 @@ export default function SocialShare({ post }: { post: Post }) {
         >
           <div className="flex items-center space-x-2 pl-3 hover:bg-gray-100 p-2">
             <TwitterIcon size={24} round />
-            <span>Share on Twitter</span>
+            <span className="text-gray-700">Share on Twitter</span>
           </div>
         </TwitterShareButton>
         <LinkedinShareButton
@@ -49,7 +49,7 @@ export default function SocialShare({ post }: { post: Post }) {
         >
           <div className="flex items-center space-x-2 pl-3 hover:bg-gray-100 p-2">
             <LinkedinIcon size={24} round />
-            <span>Share on Linkedin</span>
+            <span className="text-gray-700">Share on Linkedin</span>
           </div>
         </LinkedinShareButton>
       </div>
