@@ -159,12 +159,12 @@ export async function generateMetadata({
 
     openGraph: {
       title,
+      type: "article",
       description: post.excerpt,
       images: [post.ogImage.url],
     },
     twitter: {
       creator: author.twitterHandle,
-      card: "summary_large_image",
       title,
       description: post.excerpt,
       images: [post.ogImage.url],
