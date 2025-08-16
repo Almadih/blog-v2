@@ -145,6 +145,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
+  const author = getAuthor();
 
   if (!post) {
     return notFound();
@@ -155,7 +156,15 @@ export async function generateMetadata({
   return {
     metadataBase: new URL("https://blog.almadih.dev"),
     title,
+
     openGraph: {
+      title,
+      description: post.excerpt,
+      images: [post.ogImage.url],
+    },
+    twitter: {
+      creator: author.twitterHandle,
+      card: "summary_large_image",
       title,
       description: post.excerpt,
       images: [post.ogImage.url],
