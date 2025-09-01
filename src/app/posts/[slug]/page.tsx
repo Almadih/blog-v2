@@ -34,7 +34,7 @@ export default async function BlogPost({ params }: { params: Params }) {
       <Header showShare post={post} />
 
       <main className="relative container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <article>
             {/* Article Header */}
             <header className="mb-12">
