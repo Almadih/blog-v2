@@ -13,7 +13,7 @@ export default function MarkdownComponent({ content }: { content: string }) {
           const { children, className, node, ...rest } = props;
           const match = /language-(\w+)/.exec(className || "");
           return match ? (
-            <CodeBlock code={String(children)} language={match[1]}>
+            <CodeBlock code={String(children)} language="js">
               <CodeBlock.Code className="bg-gray-900 p-6 rounded-xl shadow-lg overflow-auto text-base">
                 <div className="table-row">
                   <CodeBlock.LineNumber className="table-cell pr-4 text-sm text-gray-500 text-right select-none" />
