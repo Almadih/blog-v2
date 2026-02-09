@@ -1,7 +1,7 @@
 ---
 title: Reliable Background OCR Processing with Inngest and Next.js
 date: "2026-02-3"
-published: false
+published: true
 tags: ['nextjs','inngest', 'ocr', 'background-processing']
 coverImage: "/assets/blog/images/inngest.png"
 excerpt: "Processing files with AI can be unpredictable. When a user uploads ten bank receipts at once, performing OCR on each one sequentially within a single request is a recipe for disaster."
@@ -13,7 +13,7 @@ ogImage:
 
 Processing files with AI can be unpredictable. When a user uploads ten bank receipts at once, performing OCR on each one sequentially within a single request is a recipe for disaster: you'll hit serverless timeouts, memory limits, and provide a terrible user experience.
 
-In this post, I'll explain how we used **Inngest** to build a durable, event-driven background processing pipeline for BayanPlus.
+In this post, I'll explain how we used **Inngest** to build a durable, event-driven background processing pipeline.
 
 ## The Challenge: The Serverless "Wall"
 
@@ -33,7 +33,7 @@ First, we define what a "process receipt" event looks like. This gives us type s
 ```typescript
 // src/inngest/client.ts
 export const inngest = new Inngest({
-  id: "bankak-ocr",
+  id: "receipt-processor",
   schemas: new EventSchemas().fromRecord<{
     "receipt/process": {
       data: {
@@ -121,4 +121,4 @@ export async function bulkUploadReceipts(formData: FormData) {
 
 ## Conclusion
 
-By moving heavy AI processing to Inngest, we've made BayanPlus significantly more robust and responsive. It's the difference between an application that feels like a toy and one that handles real-world workloads reliably.
+By moving heavy AI processing to Inngest, we've made the app significantly more robust and responsive. It's the difference between an application that feels like a toy and one that handles real-world workloads reliably.
