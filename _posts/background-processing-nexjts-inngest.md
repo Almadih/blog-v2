@@ -1,6 +1,6 @@
 ---
 title: Reliable Background OCR Processing with Inngest and Next.js
-date: "2026-02-3"
+date: "2026-02-03"
 published: true
 tags: ['nextjs','inngest', 'ocr', 'background-processing']
 coverImage: "/assets/blog/images/inngest.png"

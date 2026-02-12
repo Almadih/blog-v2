@@ -17,6 +17,7 @@
     "eslint-config-next": "^15.4.5",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.536.0",
+    "mermaid": "^11.12.2",
     "next": "15.0.7",
     "next-share": "^0.27.0",
     "prism-react-renderer": "^2.4.1",
