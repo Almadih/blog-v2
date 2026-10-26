@@ -5,15 +5,94 @@ import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://blog.almadih.dev"),
   title: {
     default: "Mohamed Almadih — Engineering Journal",
     template: "%s | Mohamed Almadih",
   },
   description:
     "Technical notes and deep dives on distributed systems, databases, asynchronous architectures, and modern web performance by Mohamed Almadih.",
+  keywords: [
+    "Mohamed Almadih",
+    "systems engineering",
+    "distributed systems",
+    "PostgreSQL",
+    "Next.js",
+    "Python",
+    "Celery",
+    "software architecture",
+    "web performance",
+  ],
+  authors: [{ name: "Mohamed Almadih", url: "https://blog.almadih.dev" }],
+  creator: "Mohamed Almadih",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://blog.almadih.dev",
+    siteName: "Mohamed Almadih — Engineering Journal",
+    title: "Mohamed Almadih — Engineering Journal",
+    description:
+      "Technical notes and deep dives on distributed systems, databases, asynchronous architectures, and modern web performance.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mohamed Almadih — Engineering Journal",
+    description:
+      "Technical notes and deep dives on distributed systems, databases, asynchronous architectures, and modern web performance.",
+    creator: "@almadih_desu",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "./",
+    types: {
+      "application/rss+xml": "/feed.xml",
+    },
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://blog.almadih.dev/#website",
+      url: "https://blog.almadih.dev",
+      name: "Mohamed Almadih — Engineering Journal",
+      description:
+        "Technical notes and deep dives on distributed systems, databases, asynchronous architectures, and modern web performance.",
+      publisher: {
+        "@id": "https://blog.almadih.dev/#person",
+      },
+    },
+    {
+      "@type": "Person",
+      "@id": "https://blog.almadih.dev/#person",
+      name: "Mohamed Almadih",
+      url: "https://blog.almadih.dev",
+      jobTitle: "Software Engineer",
+      sameAs: [
+        "https://github.com/almadih",
+        "https://twitter.com/almadih_desu",
+        "https://linkedin.com/in/almadih",
+      ],
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -24,6 +103,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <link
           rel="apple-touch-icon"
           sizes="180x180"

@@ -30,8 +30,37 @@ export default async function BlogPost({ params }: { params: Params }) {
     year: "numeric",
   });
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Person",
+      name: author.name,
+      url: "https://blog.almadih.dev",
+    },
+    publisher: {
+      "@type": "Person",
+      name: author.name,
+      url: "https://blog.almadih.dev",
+    },
+    image: post.coverImage ? [post.coverImage] : undefined,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://blog.almadih.dev/posts/${post.slug}`,
+    },
+    keywords: post.tags?.join(", "),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header showShare post={post} />
 
       <main className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
@@ -131,22 +160,40 @@ export async function generateMetadata({
   }
 
   const title = `${post.title} | Mohamed Almadih`;
+  const url = `https://blog.almadih.dev/posts/${post.slug}`;
+  const ogImageUrl =
+    post.ogImage?.url || post.coverImage || "/assets/blog/authors/almadih2.png";
 
   return {
     metadataBase: new URL("https://blog.almadih.dev"),
     title,
-
+    description: post.excerpt,
+    alternates: {
+      canonical: `/posts/${post.slug}`,
+    },
     openGraph: {
       title,
-      type: "article",
       description: post.excerpt,
-      images: [post.ogImage.url],
+      type: "article",
+      url,
+      publishedTime: post.date,
+      authors: [author.name],
+      tags: post.tags,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
+      card: "summary_large_image",
       creator: author.twitterHandle,
       title,
       description: post.excerpt,
-      images: [post.ogImage.url],
+      images: [ogImageUrl],
     },
   };
 }

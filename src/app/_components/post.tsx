@@ -5,7 +5,13 @@ import Link from "next/link";
 import Tag from "./tag";
 import ReadTime from "./read-time";
 
-export default function Post({ post }: { post: PostType }) {
+export default function Post({
+  post,
+  priority = false,
+}: {
+  post: PostType;
+  priority?: boolean;
+}) {
   const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -24,6 +30,7 @@ export default function Post({ post }: { post: PostType }) {
             src={post.coverImage}
             alt={post.title}
             fill
+            priority={priority}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
             className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
           />
@@ -43,11 +50,9 @@ export default function Post({ post }: { post: PostType }) {
             </span>
           </div>
 
-          <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-100 group-hover:text-white transition-colors line-clamp-2">
-            <Link href={`/posts/${post.slug}`}>
-              {post.title}
-            </Link>
-          </h2>
+          <h3 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-100 group-hover:text-white transition-colors line-clamp-2">
+            <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+          </h3>
 
           <p className="text-sm text-zinc-400 line-clamp-2 leading-relaxed">
             {post.excerpt}

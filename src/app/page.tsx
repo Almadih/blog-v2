@@ -48,7 +48,7 @@ export default function Index() {
                     Latest Article
                   </h2>
                 </div>
-                <Post post={featuredPost} />
+                <Post post={featuredPost} priority={true} />
               </section>
             )}
 
