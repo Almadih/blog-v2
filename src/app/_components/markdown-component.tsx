@@ -1,9 +1,24 @@
 "use client";
 import Markdown from "react-markdown";
 import { CodeBlock } from "react-code-block";
+import { Prism } from "prism-react-renderer";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import Mermaid from "./mermaid";
+
+// Register additional Prism languages not bundled by default in prism-react-renderer
+if (typeof globalThis !== "undefined") {
+  (globalThis as unknown as { Prism: typeof Prism }).Prism = Prism;
+  try {
+    require("prismjs/components/prism-bash");
+    require("prismjs/components/prism-dart");
+    require("prismjs/components/prism-markup-templating");
+    require("prismjs/components/prism-php");
+    Prism.languages.shell = Prism.languages.bash;
+  } catch {
+    // Graceful fallback if dynamic require is unavailable
+  }
+}
 
 function CodeBlockWithCopy({
   code,
@@ -57,7 +72,11 @@ function CodeBlockWithCopy({
         </button>
       </div>
 
-      <CodeBlock code={code} language={language || "text"}>
+      <CodeBlock
+        code={code}
+        language={language === "shell" ? "bash" : (language?.toLowerCase() || "text")}
+        prism={Prism}
+      >
         <CodeBlock.Code className="p-4 sm:p-5 overflow-x-auto text-[13px] sm:text-sm font-mono leading-relaxed block">
           <div className="table-row">
             <CodeBlock.LineNumber className="table-cell pr-4 text-xs text-zinc-400 text-right select-none" />
