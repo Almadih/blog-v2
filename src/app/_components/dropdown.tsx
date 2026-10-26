@@ -28,28 +28,19 @@ export default function Dropdown({
     <div className="relative inline-block text-left" ref={dropdownRef}>
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white rounded-md hover:text-gray-100 focus:outline-none"
+        aria-label="Share article"
+        aria-expanded={open}
+        className="inline-flex items-center justify-center h-9 w-9 rounded-lg text-zinc-400 hover:text-white hover:bg-white/[0.06] active:scale-95 transition-all border border-transparent hover:border-white/[0.08] focus:outline-none"
       >
-        <Share2 className="w-5 h-5" />
+        <Share2 className="w-4 h-4" />
       </button>
 
       {open && (
         <div
-          className="
-    absolute z-10 mt-2 w-48 origin-top rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5
-    lg:left-1/2 lg:transform lg:-translate-x-1/2 
-    right-0 transform-none
-  "
+          role="menu"
+          className="absolute z-50 mt-2 w-52 origin-top-right right-0 rounded-xl bg-zinc-900/95 backdrop-blur-xl border border-white/[0.12] shadow-2xl p-1.5 animate-in fade-in zoom-in-95 duration-150"
         >
-          {/* Small triangle */}
-          <div
-            className="
-      absolute top-0 -translate-y-full w-0 h-0 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent border-b-white
-      lg:left-1/2 lg:-translate-x-1/2
-      right-4 translate-x-0
-    "
-          ></div>
-          <div className="py-1">{children}</div>
+          {children}
         </div>
       )}
     </div>

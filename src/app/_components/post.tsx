@@ -1,70 +1,74 @@
 import { Post as PostType } from "@/interfaces/post";
-import { ArrowRight, Calendar, Clock, Eye, Star } from "lucide-react";
+import { ArrowRight, Calendar, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Tag from "./tag";
 import ReadTime from "./read-time";
 
 export default function Post({ post }: { post: PostType }) {
+  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
-    <div className="flex flex-col group overflow-hidden bg-black/40 backdrop-blur-sm border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20 rounded-lg">
-      <div className="aspect-video relative overflow-hidden">
-        <div className={`absolute inset-0 bg-gradient-to-br opacity-80`} />
-        <Image
-          src={post.coverImage || "/placeholder.svg"}
-          alt={post.title}
-          fill
-          sizes="(max-width: 768px) 100vw, 1280px"
-          className="object-cover group-hover:scale-110 transition-transform duration-700"
-        />
-        <div className="absolute top-4 left-4 flex items-center space-x-2">
-          {post.tags && post.tags.map((tag) => <Tag key={tag} tag={tag} />)}
+    <article className="group flex flex-col rounded-2xl bg-zinc-900/40 hover:bg-zinc-900/70 border border-white/[0.08] hover:border-white/[0.18] transition-all duration-300 overflow-hidden">
+      {post.coverImage && (
+        <Link
+          href={`/posts/${post.slug}`}
+          tabIndex={-1}
+          className="relative aspect-[16/9] overflow-hidden bg-zinc-950 block"
+        >
+          <Image
+            src={post.coverImage}
+            alt={post.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+            className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+          />
+        </Link>
+      )}
+
+      <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between gap-4">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
+            <span className="inline-flex items-center">
+              <Calendar className="h-3.5 w-3.5 mr-1.5 text-zinc-400" />
+              {formattedDate}
+            </span>
+            <span className="inline-flex items-center">
+              <Clock className="h-3.5 w-3.5 mr-1.5 text-zinc-400" />
+              <ReadTime text={post.content} />
+            </span>
+          </div>
+
+          <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-100 group-hover:text-white transition-colors line-clamp-2">
+            <Link href={`/posts/${post.slug}`}>
+              {post.title}
+            </Link>
+          </h2>
+
+          <p className="text-sm text-zinc-400 line-clamp-2 leading-relaxed">
+            {post.excerpt}
+          </p>
         </div>
-        <div className="absolute bottom-4 right-4 flex items-center space-x-3 text-white/80 text-sm">
-          <div className="flex items-center space-x-1">
-            <Eye className="w-4 h-4" />
-            <span>{"0"}</span>
+
+        <div className="pt-2 border-t border-white/[0.04] flex items-center justify-between gap-2">
+          <div className="flex items-center flex-wrap gap-1.5">
+            {post.tags &&
+              post.tags.slice(0, 3).map((tag) => <Tag key={tag} tag={tag} />)}
           </div>
-          <div className="flex items-center space-x-1">
-            <Star className="w-4 h-4" />
-            <span>{"0"}</span>
-          </div>
+
+          <Link
+            href={`/posts/${post.slug}`}
+            className="inline-flex items-center text-xs font-medium text-zinc-400 group-hover:text-zinc-100 transition-colors"
+          >
+            <span>Read</span>
+            <ArrowRight className="ml-1 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
-      <Link href={`/posts/${post.slug}`} className="flex-1 flex">
-        <div className="p-6 flex flex-col flex-1">
-          <div className="flex items-center justify-between text-sm text-white/60 mb-3">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center">
-                <Calendar className="h-4 w-4 mr-1" />
-                {new Date(post.date).toLocaleDateString()}
-              </div>
-              <div className="flex items-center">
-                <Clock className="h-4 w-4 mr-1" />
-                <ReadTime text={post.content} />
-              </div>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-xl text-white group-hover:text-blue-300 transition-colors line-clamp-2 font-semibold mb-3">
-              {post.title}
-            </h3>
-          </div>
-          <div className="flex-1">
-            <p className="text-white/70 line-clamp-3 leading-relaxed mb-4">
-              {post.excerpt}
-            </p>
-          </div>
-          <div>
-            <button className="inline-flex items-center font-semibold text-blue-400 hover:text-blue-300 group transition-colors">
-              <span className="flex items-center">
-                Read more
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </button>
-          </div>
-        </div>
-      </Link>
-    </div>
+    </article>
   );
 }

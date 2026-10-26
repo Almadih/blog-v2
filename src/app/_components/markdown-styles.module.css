@@ -1,26 +1,55 @@
 .markdown {
-  @apply text-xl leading-relaxed;
+  @apply text-base sm:text-[17px] leading-[1.8] text-zinc-300;
 }
 
-.markdown p,
-.markdown ul,
-.markdown ol,
+.markdown p {
+  @apply my-6 text-zinc-300 leading-[1.8];
+}
+
+.markdown ul {
+  @apply my-6 list-disc pl-6 space-y-2 text-zinc-300;
+}
+
+.markdown ol {
+  @apply my-6 list-decimal pl-6 space-y-2 text-zinc-300;
+}
+
+.markdown li {
+  @apply leading-[1.7];
+}
+
 .markdown blockquote {
-  @apply my-6;
+  @apply my-8 pl-5 py-1 border-l-2 border-zinc-700 italic text-zinc-400 bg-white/[0.02] rounded-r-lg;
 }
 
 .markdown h2 {
-  @apply text-3xl mt-12 mb-4 leading-snug;
+  @apply text-2xl sm:text-3xl font-bold mt-14 mb-4 tracking-tight text-white;
 }
 
 .markdown h3 {
-  @apply text-2xl mt-8 mb-4 leading-snug;
+  @apply text-xl sm:text-2xl font-semibold mt-10 mb-3 tracking-tight text-white;
+}
+
+.markdown h4 {
+  @apply text-lg font-semibold mt-8 mb-2 text-white;
 }
 
 .markdown a {
-  @apply text-blue-500 font-semibold transition-colors hover:text-blue-600 underline;
+  @apply text-zinc-100 underline decoration-zinc-600 hover:decoration-white transition-colors underline-offset-4 font-normal;
 }
 
-.markdown     code {
-        @apply bg-gray-800 p-1 m-0 whitespace-break-spaces rounded-md text-sm;
-    }
+.markdown hr {
+  @apply my-10 border-white/[0.08];
+}
+
+.markdown table {
+  @apply w-full my-8 text-sm text-left border-collapse border border-white/[0.08] rounded-lg overflow-hidden;
+}
+
+.markdown th {
+  @apply border border-white/[0.08] px-4 py-2.5 bg-zinc-900/80 text-zinc-200 font-semibold text-xs font-mono uppercase tracking-wider;
+}
+
+.markdown td {
+  @apply border border-white/[0.08] px-4 py-2.5 text-zinc-300;
+}

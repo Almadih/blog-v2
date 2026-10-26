@@ -33,35 +33,35 @@ export function getAllPosts(): Post[] {
   return posts.filter((post) => post.published);
 }
 
-export function getAllTags() {
+export function getAllTags(): Tag[] {
   const posts = getAllPosts();
-  const tagSet: Tag[] = [];
+  const tagMap = new Map<string, number>();
+
   posts.forEach((post) => {
     if (post.tags && post.tags.length > 0) {
-      post.tags.forEach((tag) => {
-        const existingTag = tagSet.find(
-          (existingTag) => existingTag.name === tag
-        );
-        if (!existingTag) {
-          tagSet.push({ name: tag, count: 1 });
-        } else {
-          existingTag.count++;
+      post.tags.forEach((rawTag) => {
+        const normalized = rawTag.trim();
+        if (normalized) {
+          tagMap.set(normalized, (tagMap.get(normalized) || 0) + 1);
         }
       });
     }
   });
 
-  tagSet.forEach((tag) => {
-    tag.count = tag.count;
-  });
-
-  return tagSet.sort((a, b) => b.count - a.count).slice(0, 5);
+  return Array.from(tagMap.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count).slice(0,5);
 }
 
 export function getPostByTag(tag: string) {
   const posts = getAllPosts();
+  const decoded = decodeURIComponent(tag).toLowerCase();
   return posts
-    .filter((post) => post.tags && post.tags.includes(tag))
+    .filter(
+      (post) =>
+        post.tags &&
+        post.tags.some((t) => t.trim().toLowerCase() === decoded)
+    )
     .filter((post) => post.published);
 }
 
