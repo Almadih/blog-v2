@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hindsight Architecture · Hybrid Edge &amp; Client Model</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #09090b;
+      --color-paper-2: #121316;
+      --color-surface: #18191d;
+      --color-ink:     #f4f4f5;
+      --color-muted:   #a1a1aa;
+      --color-soft:    #71717a;
+      --color-accent:  #10b981;
+      --color-link:    #38bdf8;
+      --font-sans:     'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1080px;
+      width: 100%;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 2.5vw + 0.8rem, 2.2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--color-ink);
+      margin-bottom: 1.75rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--color-paper);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Architecture · Diagram Design</p>
+    <h1>Hindsight: Hybrid Edge &amp; Client Chess Review Engine</h1>
+
+    <svg viewBox="0 0 1000 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="hindsight-arch-title hindsight-arch-desc">
+      <title id="hindsight-arch-title">Hindsight Hybrid Edge Architecture</title>
+      <desc id="hindsight-arch-desc">Architecture diagram of Hindsight showing client-side Web Worker Stockfish WASM analysis communicating with a Cloudflare Python Worker at the edge, backed by D1, KV, and Workers AI.</desc>
+      
+      <defs>
+        <pattern id="bg-dots" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="0.8" fill="rgba(255,255,255,0.06)"/>
+        </pattern>
+        <marker id="arrow-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#a1a1aa"/>
+        </marker>
+        <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#38bdf8"/>
+        </marker>
+        <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#10b981"/>
+        </marker>
+      </defs>
+
+      <!-- Background Canvas -->
+      <rect width="100%" height="100%" fill="#09090b"/>
+      <rect width="100%" height="100%" fill="url(#bg-dots)"/>
+
+      <!-- ========================================== -->
+      <!-- ZONES (Z-Order: Drawn before arrows/nodes) -->
+      <!-- ========================================== -->
+
+      <!-- Zone 1: Client Environment -->
+      <rect x="60" y="32" width="880" height="126" rx="8"
+            fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+      <rect x="90" y="26" width="168" height="14" rx="2" fill="#09090b"/>
+      <text x="174" y="36" fill="#71717a" font-size="8" font-family="'Geist Mono', monospace"
+            text-anchor="middle" letter-spacing="0.14em">CLIENT ENVIRONMENT (BROWSER)</text>
+
+      <!-- Zone 2: Cloudflare Edge -->
+      <rect x="60" y="212" width="880" height="150" rx="8"
+            fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+      <rect x="90" y="206" width="164" height="14" rx="2" fill="#09090b"/>
+      <text x="172" y="216" fill="#71717a" font-size="8" font-family="'Geist Mono', monospace"
+            text-anchor="middle" letter-spacing="0.14em">CLOUDFLARE EDGE RUNTIME</text>
+
+      <!-- Zone 3: Storage & AI Services -->
+      <rect x="60" y="416" width="880" height="132" rx="8"
+            fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+      <rect x="90" y="410" width="176" height="14" rx="2" fill="#09090b"/>
+      <text x="178" y="420" fill="#71717a" font-size="8" font-family="'Geist Mono', monospace"
+            text-anchor="middle" letter-spacing="0.14em">INTEGRATED CLOUD SERVICES</text>
+
+      <!-- ========================================== -->
+      <!-- CONNECTORS (Drawn before component boxes)  -->
+      <!-- ========================================== -->
+
+      <!-- Intra-Client connection: UI to Web Worker -->
+      <path d="M 440,95 H 512" fill="none" stroke="#a1a1aa" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arrow-muted)"/>
+      <rect x="450" y="86" width="52" height="16" rx="2" fill="#09090b"/>
+      <text x="476" y="98" fill="#a1a1aa" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">WEB UCI</text>
+
+      <!-- Primary Link: Client down to Edge Worker -->
+      <line x1="500" y1="158" x2="500" y2="238" stroke="#38bdf8" stroke-width="1.4" marker-end="url(#arrow-link)"/>
+      <rect x="360" y="188" width="280" height="18" rx="3" fill="#09090b" stroke="rgba(56,189,248,0.25)" stroke-width="0.8"/>
+      <text x="500" y="200" fill="#38bdf8" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.04em">POST /api/analyze (PGN + MultiPV Evals)</text>
+
+      <!-- Edge Worker down to D1 Database (Left Elbow, r=8) -->
+      <path d="M 330,344 V 386 Q 330,394 322,394 H 218 Q 210,394 210,402 V 438"
+            fill="none" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow-muted)"/>
+      <rect x="235" y="386" width="68" height="14" rx="2" fill="#09090b"/>
+      <text x="269" y="396" fill="#a1a1aa" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">PGN HASH</text>
+
+      <!-- Edge Worker down to Cloudflare KV (Center Line) -->
+      <line x1="500" y1="344" x2="500" y2="438" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow-muted)"/>
+      <rect x="466" y="386" width="68" height="14" rx="2" fill="#09090b"/>
+      <text x="500" y="396" fill="#a1a1aa" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">ECO &amp; CACHE</text>
+
+      <!-- Edge Worker down to Workers AI (Right Elbow, r=8) -->
+      <path d="M 670,344 V 386 Q 670,394 678,394 H 782 Q 790,394 790,402 V 438"
+            fill="none" stroke="#10b981" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+      <rect x="696" y="386" width="76" height="14" rx="2" fill="#09090b"/>
+      <text x="734" y="396" fill="#10b981" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">FACTS JSON</text>
+
+
+      <!-- ========================================== -->
+      <!-- COMPONENT NODES                            -->
+      <!-- ========================================== -->
+
+      <!-- Node 1A: Next.js Frontend -->
+      <rect x="90" y="55" width="350" height="82" rx="6"
+            fill="#121316" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+      <text x="110" y="74" fill="#71717a" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.08em">PRESENTATION LAYER</text>
+      <text x="110" y="94" fill="#f4f4f5" font-size="14" font-weight="600" font-family="'Geist', sans-serif">Next.js Review Frontend</text>
+      <text x="110" y="112" fill="#a1a1aa" font-size="11" font-family="'Geist', sans-serif">react-chessboard • Eval Bar • SVG Badges • Sounds</text>
+      <text x="110" y="127" fill="#71717a" font-size="9" font-family="'Geist Mono', monospace">Static HTML/JS export served directly from edge</text>
+
+      <!-- Node 1B: Client Stockfish Web Worker -->
+      <rect x="520" y="55" width="390" height="82" rx="6"
+            fill="#121316" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+      <text x="540" y="74" fill="#71717a" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.08em">ZERO-COST COMPUTE POOL</text>
+      <text x="540" y="94" fill="#f4f4f5" font-size="14" font-weight="600" font-family="'Geist', sans-serif">Stockfish 19 Lite WASM (Web Worker)</text>
+      <text x="540" y="112" fill="#a1a1aa" font-size="11" font-family="'Geist', sans-serif">Depth 16 • MultiPV = 3 • Early Mate Termination</text>
+      <text x="540" y="127" fill="#71717a" font-size="9" font-family="'Geist Mono', monospace">Runs on user's device: $0 server compute bills</text>
+
+      <!-- Node 2: FOCAL NODE - Cloudflare Python Worker -->
+      <rect x="180" y="240" width="640" height="104" rx="8"
+            fill="rgba(16,185,129,0.06)" stroke="#10b981" stroke-width="1.4"/>
+      <!-- Pill badge inside focal node -->
+      <rect x="204" y="254" width="190" height="16" rx="4" fill="rgba(16,185,129,0.15)"/>
+      <text x="299" y="265" fill="#34d399" font-size="8" font-family="'Geist Mono', monospace" font-weight="600" text-anchor="middle" letter-spacing="0.08em">FASTAPI + PYTHON-CHESS (PYODIDE)</text>
+      
+      <text x="204" y="291" fill="#f4f4f5" font-size="16" font-weight="600" font-family="'Geist', sans-serif">Cloudflare Python Worker Engine</text>
+      <text x="204" y="312" fill="#d1d5db" font-size="11.5" font-family="'Geist', sans-serif">• Centipawn-to-Win% Sigmoid Mapping &amp; CAPS-Style Accuracy Math</text>
+      <text x="204" y="329" fill="#d1d5db" font-size="11.5" font-family="'Geist', sans-serif">• Bitboard Tactical Heuristics: Pins, Forks, Hanging Pieces, Material Sacrifices</text>
+
+      <!-- Node 3A: Cloudflare D1 -->
+      <rect x="90" y="442" width="240" height="88" rx="6"
+            fill="#121316" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+      <text x="110" y="462" fill="#71717a" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.08em">SERVERLESS SQLITE</text>
+      <text x="110" y="482" fill="#f4f4f5" font-size="14" font-weight="600" font-family="'Geist', sans-serif">Cloudflare D1</text>
+      <text x="110" y="500" fill="#a1a1aa" font-size="11" font-family="'Geist', sans-serif">Stores game reviews by SHA-256</text>
+      <text x="110" y="516" fill="#71717a" font-size="9" font-family="'Geist Mono', monospace">Instant repeat load for any player</text>
+
+      <!-- Node 3B: Cloudflare KV -->
+      <rect x="380" y="442" width="240" height="88" rx="6"
+            fill="#121316" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+      <text x="400" y="462" fill="#71717a" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.08em">LOW-LATENCY KV STORE</text>
+      <text x="400" y="482" fill="#f4f4f5" font-size="14" font-weight="600" font-family="'Geist', sans-serif">Cloudflare KV</text>
+      <text x="400" y="500" fill="#a1a1aa" font-size="11" font-family="'Geist', sans-serif">ECO Opening Book Dictionary</text>
+      <text x="400" y="516" fill="#71717a" font-size="9" font-family="'Geist Mono', monospace">Caches Chess.com/Lichess archives</text>
+
+      <!-- Node 3C: Workers AI -->
+      <rect x="670" y="442" width="240" height="88" rx="6"
+            fill="#121316" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+      <text x="690" y="462" fill="#34d399" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.08em">EDGE LLM INFERENCE</text>
+      <text x="690" y="482" fill="#f4f4f5" font-size="14" font-weight="600" font-family="'Geist', sans-serif">Workers AI (Llama 3.1)</text>
+      <text x="690" y="500" fill="#a1a1aa" font-size="11" font-family="'Geist', sans-serif">Converts facts into coach advice</text>
+      <text x="690" y="516" fill="#71717a" font-size="9" font-family="'Geist Mono', monospace">Zero hallucinations via strict facts</text>
+    </svg>
+  </div>
+</body>
+</html>
