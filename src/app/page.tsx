@@ -1,12 +1,14 @@
 import { getAllPosts, getAllTags } from "@/lib/api";
 import Link from "next/link";
+import { tagToSlug } from "@/lib/tags";
 import Header from "./_components/header";
 import Author from "./_components/author";
 import Post from "./_components/post";
+import Footer from "./_components/footer";
 
 export default function Index() {
   const allPosts = getAllPosts();
-  const tags = getAllTags();
+  const tags = getAllTags(5);
   const featuredPost = allPosts[0];
   const remainingPosts = allPosts.slice(1);
 
@@ -14,12 +16,12 @@ export default function Index() {
     <>
       <Header isHome />
 
-      <main className="relative container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-8 sm:py-12 flex-1">
+      <main id="main-content" tabIndex={-1} className="relative container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-8 sm:py-12 flex-1">
         {/* Editorial Hero */}
         <section className="mb-12 sm:mb-16 pb-10 border-b border-white/[0.08]">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono text-zinc-400 bg-white/[0.04] border border-white/[0.08] mb-6">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span>Engineering Journal & Notes</span>
             </div>
 
@@ -86,7 +88,7 @@ export default function Index() {
                   {tags.map((tag) => (
                     <Link
                       key={tag.name}
-                      href={`/tags/${tag.name.toLowerCase()}`}
+                      href={`/tags/${tagToSlug(tag.name)}`}
                       className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.06] transition-all group"
                     >
                       <span className="capitalize group-hover:translate-x-0.5 transition-transform">
@@ -104,55 +106,7 @@ export default function Index() {
         </div>
       </main>
 
-      {/* Senior Minimalist Footer */}
-      <footer className="border-t border-white/[0.08] bg-zinc-950/60 mt-16 py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
-            <div className="flex items-center space-x-2">
-              <span className="font-mono font-medium text-zinc-300">
-                Mohamed Almadih
-              </span>
-              <span>—</span>
-              <span>Engineering Journal</span>
-            </div>
-
-            <div className="flex items-center space-x-6">
-              <a
-                href="https://github.com/almadih"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-zinc-200 transition-colors"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://twitter.com/almadih_desu"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-zinc-200 transition-colors"
-              >
-                Twitter / X
-              </a>
-              <a
-                href="https://linkedin.com/in/almadih"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-zinc-200 transition-colors"
-              >
-                LinkedIn
-              </a>
-              <a
-                href="/feed.xml"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-zinc-200 transition-colors"
-              >
-                RSS
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

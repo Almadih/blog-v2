@@ -23,12 +23,14 @@ export default function Post({
       {post.coverImage && (
         <Link
           href={`/posts/${post.slug}`}
+          // Duplicate of the title link below, so hide it from keyboard and screen readers.
           tabIndex={-1}
+          aria-hidden="true"
           className="relative aspect-[16/9] overflow-hidden bg-zinc-950 block"
         >
           <Image
             src={post.coverImage}
-            alt={post.title}
+            alt=""
             fill
             priority={priority}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
@@ -42,7 +44,7 @@ export default function Post({
           <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
             <span className="inline-flex items-center">
               <Calendar className="h-3.5 w-3.5 mr-1.5 text-zinc-400" />
-              {formattedDate}
+              <time dateTime={post.date}>{formattedDate}</time>
             </span>
             <span className="inline-flex items-center">
               <Clock className="h-3.5 w-3.5 mr-1.5 text-zinc-400" />
@@ -67,6 +69,7 @@ export default function Post({
 
           <Link
             href={`/posts/${post.slug}`}
+            aria-label={`Read ${post.title}`}
             className="inline-flex items-center text-xs font-medium text-zinc-400 group-hover:text-zinc-100 transition-colors"
           >
             <span>Read</span>

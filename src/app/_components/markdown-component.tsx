@@ -1,7 +1,7 @@
 "use client";
 import Markdown from "react-markdown";
 import { CodeBlock } from "react-code-block";
-import { Prism } from "prism-react-renderer";
+import { Prism, themes } from "prism-react-renderer";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import Mermaid from "./mermaid";
@@ -19,6 +19,17 @@ if (typeof globalThis !== "undefined") {
     // Graceful fallback if dynamic require is unavailable
   }
 }
+
+// The default VS Dark theme, with its dim "constant" colour (#646695, ~3.5:1)
+// lightened to meet WCAG AA contrast on the code block background.
+const codeTheme = {
+  ...themes.vsDark,
+  styles: themes.vsDark.styles.map((entry) =>
+    entry.types.includes("constant")
+      ? { ...entry, style: { ...entry.style, color: "#9b9de0" } }
+      : entry
+  ),
+};
 
 function CodeBlockWithCopy({
   code,
@@ -76,8 +87,12 @@ function CodeBlockWithCopy({
         code={code}
         language={language === "shell" ? "bash" : (language?.toLowerCase() || "text")}
         prism={Prism}
+        theme={codeTheme}
       >
-        <CodeBlock.Code className="p-4 sm:p-5 overflow-x-auto text-[13px] sm:text-sm font-mono leading-relaxed block">
+        <CodeBlock.Code
+          // Focusable so keyboard users can scroll long lines horizontally.
+          tabIndex={0}
+          className="p-4 sm:p-5 overflow-x-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400 text-[13px] sm:text-sm font-mono leading-relaxed block">
           <div className="table-row">
             <CodeBlock.LineNumber className="table-cell pr-4 text-xs text-zinc-400 text-right select-none" />
             <CodeBlock.LineContent className="table-cell text-zinc-200">

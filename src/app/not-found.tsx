@@ -1,13 +1,14 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Header from "./_components/header";
+import Footer from "./_components/footer";
 
 export default function NotFound() {
   return (
     <>
       <Header />
 
-      <main className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-24 max-w-3xl flex-1 flex flex-col items-center justify-center text-center">
+      <main id="main-content" tabIndex={-1} className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-24 max-w-3xl flex-1 flex flex-col items-center justify-center text-center">
         <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] mb-6">
           Error 404
         </span>
@@ -29,9 +30,7 @@ export default function NotFound() {
         </Link>
       </main>
 
-      <footer className="border-t border-white/[0.08] py-8 text-center text-xs text-zinc-400 font-mono">
-        Mohamed Almadih — Engineering Journal
-      </footer>
+      <Footer />
     </>
   );
 }

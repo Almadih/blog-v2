@@ -1,4 +1,5 @@
 import { getAllPosts, getAllTags } from "@/lib/api";
+import { tagToSlug } from "@/lib/tags";
 
 export async function GET() {
   const posts = getAllPosts();
@@ -21,7 +22,7 @@ export async function GET() {
     .map(
       (tag) => `
   <url>
-    <loc>${baseUrl}/tags/${tag.name.toLowerCase()}</loc>
+    <loc>${baseUrl}/tags/${tagToSlug(tag.name)}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>`

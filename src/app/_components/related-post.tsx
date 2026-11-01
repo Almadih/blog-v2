@@ -22,6 +22,7 @@ export default function RelatedPost({ post }: { post: Post }) {
       <div className="mt-4 pt-3 border-t border-white/[0.04]">
         <Link
           href={`/posts/${post.slug}`}
+          aria-label={`Read article: ${post.title}`}
           className="inline-flex items-center text-xs font-medium text-zinc-400 group-hover:text-zinc-100 transition-colors"
         >
           <span>Read article</span>
