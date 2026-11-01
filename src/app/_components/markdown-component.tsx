@@ -77,7 +77,10 @@ function CodeBlockWithCopy({
         language={language === "shell" ? "bash" : (language?.toLowerCase() || "text")}
         prism={Prism}
       >
-        <CodeBlock.Code className="p-4 sm:p-5 overflow-x-auto text-[13px] sm:text-sm font-mono leading-relaxed block">
+        <CodeBlock.Code
+          // Focusable so keyboard users can scroll long lines horizontally.
+          tabIndex={0}
+          className="p-4 sm:p-5 overflow-x-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400 text-[13px] sm:text-sm font-mono leading-relaxed block">
           <div className="table-row">
             <CodeBlock.LineNumber className="table-cell pr-4 text-xs text-zinc-400 text-right select-none" />
             <CodeBlock.LineContent className="table-cell text-zinc-200">

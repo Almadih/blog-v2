@@ -17,9 +17,9 @@ export default function Author() {
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-          <h3 className="font-semibold text-base text-zinc-100">
+          <p className="font-semibold text-base text-zinc-100">
             {author.name}
-          </h3>
+          </p>
           <span className="text-xs font-mono text-zinc-400">
             {author.title}
           </span>

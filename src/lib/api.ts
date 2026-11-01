@@ -3,6 +3,7 @@ import { Tag } from "@/interfaces/tag";
 import fs from "fs";
 import matter from "gray-matter";
 import { join } from "path";
+import { tagToSlug } from "./tags";
 
 const postsDirectory = join(process.cwd(), "_posts");
 
@@ -33,7 +34,8 @@ export function getAllPosts(): Post[] {
   return posts.filter((post) => post.published);
 }
 
-export function getAllTags(): Tag[] {
+/** All tags ordered by post count. Pass `limit` to keep only the top N. */
+export function getAllTags(limit?: number): Tag[] {
   const posts = getAllPosts();
   const tagMap = new Map<string, number>();
 
@@ -48,21 +50,30 @@ export function getAllTags(): Tag[] {
     }
   });
 
-  return Array.from(tagMap.entries())
+  const tags = Array.from(tagMap.entries())
     .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count).slice(0,5);
+    .sort((a, b) => b.count - a.count);
+  return limit === undefined ? tags : tags.slice(0, limit);
 }
 
-export function getPostByTag(tag: string) {
-  const posts = getAllPosts();
-  const decoded = decodeURIComponent(tag).toLowerCase();
-  return posts
-    .filter(
-      (post) =>
-        post.tags &&
-        post.tags.some((t) => t.trim().toLowerCase() === decoded)
-    )
-    .filter((post) => post.published);
+/** Published posts whose tags match the given tag slug (see `tagToSlug`). */
+export function getPostByTag(slug: string) {
+  const target = tagToSlug(decodeURIComponent(slug));
+  return getAllPosts().filter(
+    (post) => post.tags && post.tags.some((t) => tagToSlug(t) === target)
+  );
+}
+
+/** Original display name for a tag slug, or null if no published post uses it. */
+export function getTagNameBySlug(slug: string): string | null {
+  const target = tagToSlug(decodeURIComponent(slug));
+  return getAllTags().find((t) => tagToSlug(t.name) === target)?.name ?? null;
+}
+
+/** A post by slug, but only if it is published. */
+export function getPublishedPostBySlug(slug: string) {
+  const post = getPostBySlug(slug);
+  return post && post.published ? post : null;
 }
 
 export function getRelatedPosts(post: Post) {

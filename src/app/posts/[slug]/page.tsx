@@ -1,6 +1,6 @@
 import { Calendar, Clock } from "lucide-react";
 import Image from "next/image";
-import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/api";
+import { getAllPosts, getPublishedPostBySlug, getRelatedPosts } from "@/lib/api";
 import markdownStyles from "@/app/_components/markdown-styles.module.css";
 import MarkdownComponent from "@/app/_components/markdown-component";
 import Header from "@/app/_components/header";
@@ -11,13 +11,16 @@ import { getAuthor } from "@/lib/author";
 import ReadTime from "@/app/_components/read-time";
 import { Metadata } from "next";
 
+// Only published posts are generated; drafts and unknown slugs return 404.
+export const dynamicParams = false;
+
 type Params = Promise<{
   slug: string;
 }>;
 
 export default async function BlogPost({ params }: { params: Params }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = getPublishedPostBySlug(slug);
 
   if (!post) {
     return notFound();
@@ -152,14 +155,16 @@ export async function generateMetadata({
   params: Params;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = getPublishedPostBySlug(slug);
   const author = getAuthor();
 
   if (!post) {
     return notFound();
   }
 
-  const title = `${post.title} | Mohamed Almadih`;
+  // The root layout's title template appends " | Mohamed Almadih".
+  const title = post.title;
+  const socialTitle = `${post.title} | Mohamed Almadih`;
   const url = `https://blog.almadih.dev/posts/${post.slug}`;
   const ogImageUrl =
     post.ogImage?.url || post.coverImage || "/assets/blog/authors/almadih2.png";
@@ -172,7 +177,7 @@ export async function generateMetadata({
       canonical: `/posts/${post.slug}`,
     },
     openGraph: {
-      title,
+      title: socialTitle,
       description: post.excerpt,
       type: "article",
       url,
@@ -191,7 +196,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       creator: author.twitterHandle,
-      title,
+      title: socialTitle,
       description: post.excerpt,
       images: [ogImageUrl],
     },

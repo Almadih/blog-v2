@@ -1,12 +1,13 @@
 import { getAllPosts, getAllTags } from "@/lib/api";
 import Link from "next/link";
+import { tagToSlug } from "@/lib/tags";
 import Header from "./_components/header";
 import Author from "./_components/author";
 import Post from "./_components/post";
 
 export default function Index() {
   const allPosts = getAllPosts();
-  const tags = getAllTags();
+  const tags = getAllTags(5);
   const featuredPost = allPosts[0];
   const remainingPosts = allPosts.slice(1);
 
@@ -86,7 +87,7 @@ export default function Index() {
                   {tags.map((tag) => (
                     <Link
                       key={tag.name}
-                      href={`/tags/${tag.name.toLowerCase()}`}
+                      href={`/tags/${tagToSlug(tag.name)}`}
                       className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.06] transition-all group"
                     >
                       <span className="capitalize group-hover:translate-x-0.5 transition-transform">
