@@ -45,14 +45,14 @@ export default function Header({
           </Link>
         )}
 
-        <div className="flex items-center space-x-2 sm:space-x-3">
+        <nav aria-label="Site" className="flex items-center space-x-2 sm:space-x-3">
           {showShare && post && <SocialShare post={post} />}
 
           <a
             href="https://github.com/almadih"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="GitHub"
+            aria-label="GitHub (opens in a new tab)"
             className="h-9 w-9 rounded-lg flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/[0.06] active:scale-95 transition-all border border-transparent hover:border-white/[0.08]"
           >
             <Github className="w-4 h-4" />
@@ -62,7 +62,7 @@ export default function Header({
             href="https://twitter.com/almadih_desu"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Twitter / X"
+            aria-label="Twitter / X (opens in a new tab)"
             className="h-9 w-9 rounded-lg flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/[0.06] active:scale-95 transition-all border border-transparent hover:border-white/[0.08]"
           >
             <Twitter className="w-4 h-4" />
@@ -70,14 +70,12 @@ export default function Header({
 
           <a
             href="/feed.xml"
-            target="_blank"
-            rel="noopener noreferrer"
             aria-label="RSS Feed"
             className="h-9 w-9 rounded-lg flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/[0.06] active:scale-95 transition-all border border-transparent hover:border-white/[0.08]"
           >
             <Rss className="w-4 h-4" />
           </a>
-        </div>
+        </nav>
       </div>
     </header>
   );

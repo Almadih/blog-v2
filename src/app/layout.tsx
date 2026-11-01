@@ -4,6 +4,8 @@ import cn from "classnames";
 import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
+import { DEFAULT_OG_IMAGE } from "@/lib/site";
+import { jsonLdScript } from "@/lib/json-ld";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -39,6 +41,7 @@ export const metadata: Metadata = {
     title: "Mohamed Almadih — Engineering Journal",
     description:
       "Technical notes and deep dives on distributed systems, databases, asynchronous architectures, and modern web performance.",
+    images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
@@ -46,6 +49,7 @@ export const metadata: Metadata = {
     description:
       "Technical notes and deep dives on distributed systems, databases, asynchronous architectures, and modern web performance.",
     creator: "@almadih_desu",
+    images: [DEFAULT_OG_IMAGE.url],
   },
   robots: {
     index: true,
@@ -105,7 +109,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
         />
         <link
           rel="apple-touch-icon"
@@ -145,6 +149,12 @@ export default function RootLayout({
           "min-h-screen bg-[#09090b] text-zinc-100 antialiased"
         )}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-zinc-100 focus:text-zinc-900 focus:text-sm focus:font-medium"
+        >
+          Skip to content
+        </a>
         <div className="relative min-h-screen flex flex-col justify-between">
           {children}
         </div>

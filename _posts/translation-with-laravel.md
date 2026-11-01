@@ -23,6 +23,8 @@ Our system follows an event-driven pattern that separates the user-facing reques
 
 ```mermaid
 graph TD
+    accTitle: Translation request flow
+    accDescr: A UI request reaches the TranslationController, which checks the cache and database. If the translation exists, an event is broadcast. If not, a TranslateTextJob is dispatched to the TranslationService, which calls an external API such as Google or an LLM, creates a translation record and broadcasts TranslationComplete. Both paths end with a frontend UI update.
     A[UI Request] --> B[TranslationController]
     B -->|Check Cache/DB| C{Exists?}
     C -->|Yes| D[Broadcast Event]

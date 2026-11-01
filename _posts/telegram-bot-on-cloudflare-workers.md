@@ -119,7 +119,7 @@ export async function downloadVideo(url: string) {
 
 The bot has been running smoothly for a while now, it has considerable amount of active users and it's been very useful for me, i'm planning to add more features to it, like downloading multiple videos from a single message, adding more commands and more.
 
-![](/assets/blog/images/cloudflare-snapshot.png "number of requests for the past 30 days.")
+![Cloudflare Workers dashboard showing 62k requests over the past 30 days, down 28.51%](/assets/blog/images/cloudflare-snapshot.png "number of requests for the past 30 days.")
 > number of requests for the past 30 days.
 
 

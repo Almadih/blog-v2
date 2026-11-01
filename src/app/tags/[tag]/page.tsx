@@ -1,7 +1,9 @@
 import Header from "@/app/_components/header";
 import Post from "@/app/_components/post";
+import Footer from "@/app/_components/footer";
 import { getAllTags, getPostByTag, getTagNameBySlug } from "@/lib/api";
 import { tagToSlug } from "@/lib/tags";
+import { DEFAULT_OG_IMAGE } from "@/lib/site";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -20,9 +22,22 @@ export async function generateMetadata({
   const { tag } = await params;
   const name = getTagNameBySlug(tag);
   if (!name) return notFound();
+  const description = `Articles and technical notes tagged with #${name}.`;
   return {
     title: `#${name}`,
-    description: `Articles and technical notes tagged with #${name}.`,
+    description,
+    alternates: { canonical: `/tags/${tagToSlug(name)}` },
+    openGraph: {
+      title: `#${name} | Mohamed Almadih`,
+      description,
+      url: `/tags/${tagToSlug(name)}`,
+      images: [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      title: `#${name} | Mohamed Almadih`,
+      description,
+      images: [DEFAULT_OG_IMAGE.url],
+    },
   };
 }
 
@@ -43,7 +58,7 @@ export default async function TagPage({ params }: { params: Params }) {
     <>
       <Header />
 
-      <main className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-6xl">
+      <main id="main-content" tabIndex={-1} className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-6xl">
         <header className="mb-12 border-b border-white/[0.08] pb-8">
           <div className="flex items-baseline space-x-3">
             <span aria-hidden="true" className="text-zinc-500 font-mono text-xl">#</span>
@@ -70,6 +85,7 @@ export default async function TagPage({ params }: { params: Params }) {
           </div>
         </section>
       </main>
+      <Footer />
     </>
   );
 }

@@ -10,6 +10,9 @@ import { notFound } from "next/navigation";
 import { getAuthor } from "@/lib/author";
 import ReadTime from "@/app/_components/read-time";
 import { Metadata } from "next";
+import Footer from "@/app/_components/footer";
+import { DEFAULT_OG_IMAGE, SITE_URL, absoluteUrl } from "@/lib/site";
+import { jsonLdScript } from "@/lib/json-ld";
 
 // Only published posts are generated; drafts and unknown slugs return 404.
 export const dynamicParams = false;
@@ -39,21 +42,22 @@ export default async function BlogPost({ params }: { params: Params }) {
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.updated || post.date,
     author: {
       "@type": "Person",
+      "@id": `${SITE_URL}/#person`,
       name: author.name,
-      url: "https://blog.almadih.dev",
+      url: SITE_URL,
+      image: absoluteUrl(author.picture),
     },
     publisher: {
-      "@type": "Person",
-      name: author.name,
-      url: "https://blog.almadih.dev",
+      "@id": `${SITE_URL}/#person`,
     },
-    image: post.coverImage ? [post.coverImage] : undefined,
+    image: [absoluteUrl(post.coverImage || DEFAULT_OG_IMAGE.url)],
+    url: `${SITE_URL}/posts/${post.slug}`,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://blog.almadih.dev/posts/${post.slug}`,
+      "@id": `${SITE_URL}/posts/${post.slug}`,
     },
     keywords: post.tags?.join(", "),
   };
@@ -62,11 +66,11 @@ export default async function BlogPost({ params }: { params: Params }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Header showShare post={post} />
 
-      <main className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+      <main id="main-content" tabIndex={-1} className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
         <div className="max-w-3xl mx-auto">
           <article>
             {/* Article Header */}
@@ -86,7 +90,7 @@ export default async function BlogPost({ params }: { params: Params }) {
                   <div className="relative h-8 w-8 rounded-full ring-1 ring-white/10 overflow-hidden bg-zinc-800">
                     <Image
                       src={author.picture || "/placeholder.svg"}
-                      alt={author.name}
+                      alt=""
                       fill
                       sizes="32px"
                       className="object-cover"
@@ -100,7 +104,7 @@ export default async function BlogPost({ params }: { params: Params }) {
                 <div className="flex items-center space-x-4">
                   <span className="inline-flex items-center">
                     <Calendar className="h-3.5 w-3.5 mr-1.5 text-zinc-400" />
-                    {formattedDate}
+                    <time dateTime={post.date}>{formattedDate}</time>
                   </span>
                   <span className="inline-flex items-center">
                     <Clock className="h-3.5 w-3.5 mr-1.5 text-zinc-400" />
@@ -114,7 +118,7 @@ export default async function BlogPost({ params }: { params: Params }) {
               <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-white/[0.08] mb-12 bg-zinc-950">
                 <Image
                   src={post.coverImage}
-                  alt={post.title}
+                  alt=""
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, 800px"
@@ -145,6 +149,7 @@ export default async function BlogPost({ params }: { params: Params }) {
           )}
         </div>
       </main>
+      <Footer />
     </>
   );
 }
@@ -165,12 +170,13 @@ export async function generateMetadata({
   // The root layout's title template appends " | Mohamed Almadih".
   const title = post.title;
   const socialTitle = `${post.title} | Mohamed Almadih`;
-  const url = `https://blog.almadih.dev/posts/${post.slug}`;
-  const ogImageUrl =
-    post.ogImage?.url || post.coverImage || "/assets/blog/authors/almadih2.png";
+  const url = `${SITE_URL}/posts/${post.slug}`;
+  const customImage = post.ogImage?.url || post.coverImage;
+  const ogImage = customImage
+    ? { url: customImage, alt: post.title }
+    : DEFAULT_OG_IMAGE;
 
   return {
-    metadataBase: new URL("https://blog.almadih.dev"),
     title,
     description: post.excerpt,
     alternates: {
@@ -182,23 +188,17 @@ export async function generateMetadata({
       type: "article",
       url,
       publishedTime: post.date,
+      modifiedTime: post.updated || post.date,
       authors: [author.name],
       tags: post.tags,
-      images: [
-        {
-          url: ogImageUrl,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
-      creator: author.twitterHandle,
+      creator: `@${author.twitterHandle}`,
       title: socialTitle,
       description: post.excerpt,
-      images: [ogImageUrl],
+      images: [ogImage.url],
     },
   };
 }

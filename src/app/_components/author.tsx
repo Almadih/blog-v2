@@ -9,7 +9,7 @@ export default function Author() {
       <div className="relative h-16 w-16 shrink-0 rounded-full ring-1 ring-white/10 overflow-hidden bg-zinc-800">
         <Image
           src={author.picture}
-          alt={author.name}
+          alt=""
           fill
           sizes="64px"
           className="object-cover"
@@ -31,8 +31,8 @@ export default function Author() {
           <a
             href={author.linkedin}
             target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn Profile"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn profile (opens in a new tab)"
             className="p-1.5 text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.06] rounded-md transition-colors"
           >
             <Linkedin className="h-4 w-4" />
@@ -40,8 +40,8 @@ export default function Author() {
           <a
             href={author.twitter}
             target="_blank"
-            rel="noreferrer"
-            aria-label="Twitter Profile"
+            rel="noopener noreferrer"
+            aria-label="Twitter / X profile (opens in a new tab)"
             className="p-1.5 text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.06] rounded-md transition-colors"
           >
             <Twitter className="h-4 w-4" />
@@ -49,8 +49,8 @@ export default function Author() {
           <a
             href={author.github}
             target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub Profile"
+            rel="noopener noreferrer"
+            aria-label="GitHub profile (opens in a new tab)"
             className="p-1.5 text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.06] rounded-md transition-colors"
           >
             <Github className="h-4 w-4" />

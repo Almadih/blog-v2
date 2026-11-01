@@ -9,8 +9,6 @@ ogImage:
   url: "/assets/blog/images/hindsight-chess-review.png"
 ---
 
-## Building Hindsight: A Free, Edge-Powered Chess Game Review Platform
-
 If you play chess online, you know the feeling. The clock hits zero, your king gets boxed into a corner, or your opponent drops a queen-side rook fork out of nowhere. You stare at the final board state with a single burning question: *Where exactly did this game slip away?*
 
 On Chess.com, the answer is locked behind **Game Review**—that clean, dopamine-heavy breakdown with accuracy percentages, move badges (`Brilliant !!`, `Great !`, `Blunder ??`), and coach commentary. But if you're on a free tier, you get exactly one review per day. After that, you are left staring at raw centipawn numbers (`+2.4`, `-3.8`) or digging through cumbersome engine lines.
@@ -114,6 +112,8 @@ Here is what happens under the hood when a player requests a review:
 
 ```mermaid
 sequenceDiagram
+    accTitle: Hindsight review lifecycle
+    accDescr: The browser asks the Cloudflare Python Worker for a review by game hash. On a cache hit, D1 returns the stored report. On a miss, the browser streams positions to the Stockfish web worker, posts the PGN and evaluations to the edge worker, which computes win percentage, accuracy and tactical badges, asks Workers AI for coach notes, stores the result in D1 and returns the full review.
     autonumber
     actor Player as User Browser
     participant Worker as Web Worker (Stockfish)
