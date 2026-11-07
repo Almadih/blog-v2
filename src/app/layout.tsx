@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import cn from "classnames";
-import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
 
@@ -138,6 +137,11 @@ export default function RootLayout({
         />
         <meta name="theme-color" content="#09090b" />
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+        <script
+          defer
+          src="https://stats.almadih.dev/t.js"
+          data-site="blog"
+        />
       </head>
       <body
         className={cn(
@@ -148,7 +152,6 @@ export default function RootLayout({
         <div className="relative min-h-screen flex flex-col justify-between">
           {children}
         </div>
-        <Analytics />
       </body>
     </html>
   );
