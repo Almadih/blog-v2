@@ -5,6 +5,7 @@ published: true
 tags: ['vscode', 'typescript', 'productivity']
 coverImage: "/assets/blog/images/code-time-tracker.png"
 excerpt: "Ever wondered where your coding hours actually go? I built a VS Code extension that tracks your active time, breaks it down by project, and keeps all your data strictly on your machine."
+description: "How I built a VS Code extension in TypeScript that tracks active coding time per project, shows a dashboard, and keeps all of your data on your own machine."
 ogImage:
   url: "/assets/blog/images/code-time-tracker.png"
 ---

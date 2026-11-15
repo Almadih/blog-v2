@@ -2,9 +2,10 @@
 title: Telegram Bot on Cloudflare Workers
 date: "2025-08-06"
 published: true
-tags: ['cloudflare','telegram','typescript']
+tags: ['cloudflare-workers', 'telegram', 'typescript']
 coverImage: "/assets/blog/images/cloudflare-telegram.webp"
 excerpt: "Building telegram bots is like a passion of mine, but always had a problem with the hosting, you either pay for a server so.."
+description: "How to host a Telegram bot on Cloudflare Workers in TypeScript with the cf-workers-telegram-bot package, using my rewritten X/Twitter downloader as example."
 ogImage:
   url: "/assets/blog/images/cloudflare-telegram.webp"
 ---

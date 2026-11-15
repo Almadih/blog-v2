@@ -76,14 +76,15 @@ export function getPublishedPostBySlug(slug: string) {
   return post && post.published ? post : null;
 }
 
+/** Up to 3 other posts, ranked by shared tags, padded with the newest posts. */
 export function getRelatedPosts(post: Post) {
-  const relatedPosts = getAllPosts();
-  return relatedPosts
-    .filter(
-      (relatedPost) =>
-        relatedPost.tags && relatedPost.tags.includes(post.tags[0])
-    )
-    .filter((relatedPost) => relatedPost.slug !== post.slug)
-    .filter((relatedPost) => relatedPost.published)
-    .slice(0, 3);
+  const mine = new Set((post.tags ?? []).map(tagToSlug));
+  const others = getAllPosts().filter((p) => p.slug !== post.slug);
+  const score = (p: Post) =>
+    (p.tags ?? []).filter((t) => mine.has(tagToSlug(t))).length;
+  const matched = others
+    .filter((p) => score(p) > 0)
+    .sort((a, b) => score(b) - score(a)); // stable: ties stay newest-first
+  const padding = others.filter((p) => !matched.includes(p));
+  return [...matched, ...padding].slice(0, 3);
 }

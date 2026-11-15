@@ -9,6 +9,8 @@ export type Post = {
   coverImage: string;
   author: Author;
   excerpt: string;
+  /** Frontmatter meta description; falls back to excerpt. */
+  description?: string;
   ogImage: {
     url: string;
   };

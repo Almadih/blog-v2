@@ -48,6 +48,13 @@ export default function Header({
         <nav aria-label="Site" className="flex items-center space-x-2 sm:space-x-3">
           {showShare && post && <SocialShare post={post} />}
 
+          <Link
+            href="/about"
+            className="px-2 text-xs sm:text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+          >
+            About
+          </Link>
+
           <a
             href="https://github.com/almadih"
             target="_blank"
@@ -59,7 +66,7 @@ export default function Header({
           </a>
 
           <a
-            href="https://twitter.com/almadih_desu"
+            href="https://x.com/almadih_desu"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Twitter / X (opens in a new tab)"

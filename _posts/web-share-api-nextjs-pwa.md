@@ -2,9 +2,10 @@
 title: Web Share Target API in a Next.js PWA
 date: "2026-01-31"
 published: true
-tags: ['nextjs','pwa','typescript']
+tags: ['nextjs', 'pwa', 'typescript']
 coverImage: "/assets/blog/images/nextjs-pwa.png"
 excerpt: "In modern web development, Progressive Web Apps (PWAs) are closing the gap between web and native applications. One of the most powerful features to achieve this is the.."
+description: "How to add the Web Share Target API to a Next.js PWA so it shows in the system share sheet, from the manifest entry to handling shared bank receipts."
 ogImage:
   url: "/assets/blog/images/nextjs-pwa.png"
 ---

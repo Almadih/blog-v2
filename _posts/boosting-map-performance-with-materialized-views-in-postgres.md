@@ -2,9 +2,10 @@
 title: "Boosting Map Performance with Materialized Views in Postgres"
 date: "2025-09-05"
 published: true
-tags: [postgresql, laravel, geospatial]
+tags: ['postgresql', 'laravel', 'geospatial']
 coverImage: "/assets/blog/images/postgres.png"
 excerpt: "Learn how to use PostgreSQL materialized views to efficiently generate heatmaps from geospatial data without slowing down your app."
+description: "How to speed up a geospatial heatmap of the last seven days of reports by using a PostgreSQL materialized view in a Laravel app instead of querying raw rows."
 ogImage: 
     url: "/assets/blog/images/postgres.png"
 ---

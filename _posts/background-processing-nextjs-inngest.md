@@ -2,9 +2,10 @@
 title: Reliable Background OCR Processing with Inngest and Next.js
 date: "2026-02-03"
 published: true
-tags: ['nextjs','inngest', 'ocr', 'background-processing']
+tags: ['nextjs', 'inngest', 'ocr', 'background-processing']
 coverImage: "/assets/blog/images/inngest.png"
 excerpt: "Processing files with AI can be unpredictable. When a user uploads ten bank receipts at once, performing OCR on each one sequentially within a single request is a recipe for disaster."
+description: "How to process a batch of uploaded bank receipts with OCR in Next.js using Inngest, avoiding serverless timeouts through durable, event-driven background jobs."
 ogImage:
   url: "/assets/blog/images/inngest.png"
 ---

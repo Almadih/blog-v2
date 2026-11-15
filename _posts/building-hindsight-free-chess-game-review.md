@@ -5,6 +5,7 @@ published: true
 tags: ['chess', 'nextjs', 'cloudflare-workers', 'python', 'ai', 'wasm']
 coverImage: "/assets/blog/images/hindsight-chess-review.png"
 excerpt: "How I combined client-side Stockfish WASM, Cloudflare Python Workers with python-chess, and Workers AI to build a fast, free, account-free alternative to Chess.com's Game Review."
+description: "How I built Hindsight, a free chess game review tool for Chess.com and Lichess, with Stockfish WASM in the browser and Cloudflare Python Workers and Workers AI."
 ogImage:
   url: "/assets/blog/images/hindsight-chess-review.png"
 ---

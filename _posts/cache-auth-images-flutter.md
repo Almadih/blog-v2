@@ -2,9 +2,10 @@
 title: "Caching Authenticated Images in Flutter"
 date: "2025-09-03"
 published: true
-tags: [flutter, caching, mobile, riverpod]
+tags: ['flutter', 'caching', 'mobile', 'riverpod']
 coverImage: "/assets/blog/images/flutter.png"
 excerpt: "How I solved the challenge of caching authenticated images in a Flutter app using custom cache managers and proper server headers."
+description: "How to cache images that need an Authorization header in a Flutter app for offline use, with a custom cache manager and the server headers that make it work."
 ogImage: 
   url: "/assets/blog/images/flutter.png"
 ---

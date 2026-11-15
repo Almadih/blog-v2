@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 const links = [
   { href: "https://github.com/almadih", label: "GitHub" },
-  { href: "https://twitter.com/almadih_desu", label: "Twitter / X" },
+  { href: "https://x.com/almadih_desu", label: "Twitter / X" },
   { href: "https://linkedin.com/in/almadih", label: "LinkedIn" },
 ];
 
@@ -18,14 +20,22 @@ export default function Footer() {
           </p>
 
           <nav aria-label="Footer">
-            <ul className="flex items-center space-x-6">
+            <ul className="flex items-center space-x-4">
+              <li>
+                <Link
+                  href="/about"
+                  className="inline-block p-2 hover:text-zinc-200 transition-colors"
+                >
+                  About
+                </Link>
+              </li>
               {links.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-zinc-200 transition-colors"
+                    className="inline-block p-2 hover:text-zinc-200 transition-colors"
                   >
                     {link.label}
                     <span className="sr-only"> (opens in a new tab)</span>
@@ -35,7 +45,7 @@ export default function Footer() {
               <li>
                 <a
                   href="/feed.xml"
-                  className="hover:text-zinc-200 transition-colors"
+                  className="inline-block p-2 hover:text-zinc-200 transition-colors"
                 >
                   RSS
                 </a>

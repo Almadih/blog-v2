@@ -2,9 +2,10 @@
 title: End-to-End Encrypted Chat with Derived Keys
 date: "2025-09-01"
 published: true
-tags: [cryptography, typescript]
+tags: ['cryptography', 'typescript']
 coverImage: "/assets/blog/images/cropped-e2e-min.png"
 excerpt: "How I built an end-to-end encrypted chat system in Next.js using derived keys and SubtleCrypto’s ECDH implementation."
+description: "How to build end-to-end encrypted chat in Next.js and TypeScript, deriving a shared key with ECDH using the browser's SubtleCrypto API, and what failed first."
 ogImage:
   url: "/assets/blog/images/cropped-e2e-min.png"
 ---
