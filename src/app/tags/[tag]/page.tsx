@@ -3,7 +3,8 @@ import Post from "@/app/_components/post";
 import Footer from "@/app/_components/footer";
 import { getAllTags, getPostByTag, getTagNameBySlug } from "@/lib/api";
 import { tagToSlug } from "@/lib/tags";
-import { DEFAULT_OG_IMAGE } from "@/lib/site";
+import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/site";
+import { jsonLdScript } from "@/lib/json-ld";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -22,19 +23,22 @@ export async function generateMetadata({
   const { tag } = await params;
   const name = getTagNameBySlug(tag);
   if (!name) return notFound();
-  const description = `Articles and technical notes tagged with #${name}.`;
+  const count = getPostByTag(tag).length;
+  const description = `${count} ${count === 1 ? "article" : "articles"} on ${name}: engineering notes, architecture breakdowns and guides by Mohamed Almadih.`;
   return {
-    title: `#${name}`,
+    title: `${name} articles`,
     description,
+    // Thin tag pages stay out of the index but pass link equity.
+    ...(count < 2 && { robots: { index: false, follow: true } }),
     alternates: { canonical: `/tags/${tagToSlug(name)}` },
     openGraph: {
-      title: `#${name} | Mohamed Almadih`,
+      title: `${name} articles | Mohamed Almadih`,
       description,
       url: `/tags/${tagToSlug(name)}`,
       images: [DEFAULT_OG_IMAGE],
     },
     twitter: {
-      title: `#${name} | Mohamed Almadih`,
+      title: `${name} articles | Mohamed Almadih`,
       description,
       images: [DEFAULT_OG_IMAGE.url],
     },
@@ -54,8 +58,32 @@ export default async function TagPage({ params }: { params: Params }) {
   const posts = getPostByTag(tag);
   if (!tagName || posts.length === 0) return notFound();
 
+  const url = `${SITE_URL}/tags/${tagToSlug(tagName)}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: `${tagName} articles`,
+        url,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: tagName, item: url },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
+      />
       <Header />
 
       <main id="main-content" tabIndex={-1} className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-6xl">

@@ -5,6 +5,7 @@ published: true
 tags: ['npm', 'node']
 coverImage: "/assets/blog/images/npm-svg.png"
 excerpt: "I was a windows guy for a long time, when i moved to linux i am not gonna lie i missed some applications from windows.."
+description: "How I wrote and published bulk-rename-node, a small Node.js command line tool for renaming many files at once, and how to install and use it from npm."
 ogImage:
   url: "/assets/blog/images/npm-svg.png"
 ---

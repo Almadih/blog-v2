@@ -30,36 +30,41 @@ export default async function BlogPost({ params }: { params: Params }) {
   }
   const author = getAuthor();
   const relatedPosts = getRelatedPosts(post);
-  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  const fmt = (d: string) =>
+    new Date(d).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  const formattedDate = fmt(post.date);
 
+  const url = `${SITE_URL}/posts/${post.slug}`;
+  const description = post.description ?? post.excerpt;
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt,
-    datePublished: post.date,
-    dateModified: post.updated || post.date,
-    author: {
-      "@type": "Person",
-      "@id": `${SITE_URL}/#person`,
-      name: author.name,
-      url: SITE_URL,
-      image: absoluteUrl(author.picture),
-    },
-    publisher: {
-      "@id": `${SITE_URL}/#person`,
-    },
-    image: [absoluteUrl(post.coverImage || DEFAULT_OG_IMAGE.url)],
-    url: `${SITE_URL}/posts/${post.slug}`,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${SITE_URL}/posts/${post.slug}`,
-    },
-    keywords: post.tags?.join(", "),
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#article`,
+        headline: post.title,
+        description,
+        datePublished: post.date,
+        dateModified: post.updated || post.date,
+        author: { "@id": `${SITE_URL}/#person` },
+        publisher: { "@id": `${SITE_URL}/#person` },
+        image: [absoluteUrl(post.coverImage || DEFAULT_OG_IMAGE.url)],
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        isPartOf: { "@id": `${SITE_URL}/#blog` },
+        keywords: post.tags?.join(", "),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: post.title, item: url },
+        ],
+      },
+    ],
   };
 
   return (
@@ -105,6 +110,12 @@ export default async function BlogPost({ params }: { params: Params }) {
                   <span className="inline-flex items-center">
                     <Calendar className="h-3.5 w-3.5 mr-1.5 text-zinc-400" />
                     <time dateTime={post.date}>{formattedDate}</time>
+                    {post.updated && (
+                      <span className="ml-2">
+                        Updated{" "}
+                        <time dateTime={post.updated}>{fmt(post.updated)}</time>
+                      </span>
+                    )}
                   </span>
                   <span className="inline-flex items-center">
                     <Clock className="h-3.5 w-3.5 mr-1.5 text-zinc-400" />
@@ -118,7 +129,7 @@ export default async function BlogPost({ params }: { params: Params }) {
               <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-white/[0.08] mb-12 bg-zinc-950">
                 <Image
                   src={post.coverImage}
-                  alt=""
+                  alt={post.title}
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, 800px"
@@ -171,34 +182,29 @@ export async function generateMetadata({
   const title = post.title;
   const socialTitle = `${post.title} | Mohamed Almadih`;
   const url = `${SITE_URL}/posts/${post.slug}`;
-  const customImage = post.ogImage?.url || post.coverImage;
-  const ogImage = customImage
-    ? { url: customImage, alt: post.title }
-    : DEFAULT_OG_IMAGE;
+  const description = post.description ?? post.excerpt;
 
   return {
     title,
-    description: post.excerpt,
+    description,
     alternates: {
       canonical: `/posts/${post.slug}`,
     },
     openGraph: {
       title: socialTitle,
-      description: post.excerpt,
+      description,
       type: "article",
       url,
       publishedTime: post.date,
       modifiedTime: post.updated || post.date,
       authors: [author.name],
       tags: post.tags,
-      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       creator: `@${author.twitterHandle}`,
       title: socialTitle,
-      description: post.excerpt,
-      images: [ogImage.url],
+      description,
     },
   };
 }

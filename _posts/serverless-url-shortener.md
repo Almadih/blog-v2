@@ -1,10 +1,11 @@
 ---
-title: Serverless URL shorter using cloudflare workers and pages
+title: Serverless URL Shortener with Cloudflare Workers and Pages
 date: "2023-11-11"
 published: false  
-tags: ['cloudflare', 'react','javascript']
+tags: ['cloudflare-workers', 'react', 'javascript']
 coverImage: "/assets/blog/images/url-shorter.png"
 excerpt: "I'v always wanted to try cloudflare workers and build something interesting but i didn't get any cool idea, until now ..."
+description: "How I built a URL shortener with a Cloudflare Worker handling the logic, a React frontend on Cloudflare Pages, and a KV store as a simple database."
 ogImage:
   url: "/assets/blog/images/url-shorter.png"
 ---

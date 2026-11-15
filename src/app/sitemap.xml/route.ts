@@ -1,19 +1,25 @@
-import { getAllPosts, getAllTags } from "@/lib/api";
+import { getAllPosts, getAllTags, getPostByTag } from "@/lib/api";
+import { SITE_URL } from "@/lib/site";
 import { tagToSlug } from "@/lib/tags";
 
 export async function GET() {
   const posts = getAllPosts();
-  const tags = getAllTags();
-  const baseUrl = "https://blog.almadih.dev";
+  // Tags with a single post are noindexed, so keep them out of the sitemap.
+  const tags = getAllTags().filter((tag) => tag.count >= 2);
+  const baseUrl = SITE_URL;
+
+  const lastmod = (post: (typeof posts)[number]) =>
+    new Date(post.updated ?? post.date).toISOString().split("T")[0];
+  // ISO dates sort lexicographically.
+  const newest = (list: typeof posts) => list.map(lastmod).sort().at(-1);
+  const homeLastmod = newest(posts);
 
   const postUrls = posts
     .map(
       (post) => `
   <url>
     <loc>${baseUrl}/posts/${post.slug}</loc>
-    <lastmod>${new Date(post.date).toISOString().split("T")[0]}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>${lastmod(post)}</lastmod>
   </url>`
     )
     .join("");
@@ -23,8 +29,7 @@ export async function GET() {
       (tag) => `
   <url>
     <loc>${baseUrl}/tags/${tagToSlug(tag.name)}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>${newest(getPostByTag(tagToSlug(tag.name)))}</lastmod>
   </url>`
     )
     .join("");
@@ -33,9 +38,11 @@ export async function GET() {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${baseUrl}</loc>
-    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <lastmod>${homeLastmod}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/about</loc>
+    <lastmod>${homeLastmod}</lastmod>
   </url>
   ${postUrls}
   ${tagUrls}

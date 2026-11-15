@@ -67,7 +67,7 @@ function CodeBlockWithCopy({
         <button
           onClick={handleCopy}
           aria-label="Copy code to clipboard"
-          className="inline-flex items-center space-x-1.5 px-2 py-1 rounded-md text-[11px] text-zinc-400 hover:text-white hover:bg-white/[0.06] transition-colors active:scale-95"
+          className="inline-flex items-center space-x-1.5 min-h-8 px-3 py-1 rounded-md text-[11px] text-zinc-400 hover:text-white hover:bg-white/[0.06] transition-colors active:scale-95"
         >
           {copied ? (
             <>
@@ -92,9 +92,9 @@ function CodeBlockWithCopy({
         <CodeBlock.Code
           // Focusable so keyboard users can scroll long lines horizontally.
           tabIndex={0}
-          className="p-4 sm:p-5 overflow-x-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400 text-[13px] sm:text-sm font-mono leading-relaxed block">
-          <div className="table-row">
-            <CodeBlock.LineNumber className="table-cell pr-4 text-xs text-zinc-400 text-right select-none" />
+          className="p-4 sm:p-5 overflow-x-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400 text-[13px] sm:text-sm font-mono leading-relaxed block [counter-reset:line]">
+          <div className="table-row [counter-increment:line]">
+            <span aria-hidden="true" className="table-cell pr-4 text-xs text-zinc-400 text-right select-none before:content-[counter(line)]" />
             <CodeBlock.LineContent className="table-cell text-zinc-200">
               <CodeBlock.Token />
             </CodeBlock.LineContent>

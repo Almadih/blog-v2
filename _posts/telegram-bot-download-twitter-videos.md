@@ -1,10 +1,11 @@
 ---
-title: Download Videos from twitter using telegram bot
+title: Download Twitter Videos with a Telegram Bot
 date: "2022-05-27"
 published: true
-tags: ['python', 'google cloud','telegram','cloud functions']
+tags: ['python', 'cloud-functions', 'telegram']
 coverImage: "/assets/blog/images/twitter.jpg"
 excerpt: "I normally don't like to download whole app just to do a simple thing, I tried to download a video from twitter..."
+description: "How I built a Telegram bot that downloads Twitter videos, run as an HTTP-triggered Google Cloud Function that acts as the bot's webhook, with the code linked."
 ogImage:
   url: "/assets/blog/images/twitter.jpg"
 ---

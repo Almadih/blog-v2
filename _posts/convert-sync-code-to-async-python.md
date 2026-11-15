@@ -1,10 +1,11 @@
 ---
-title: Convert sync code to async in python
+title: Convert Sync Code to Async in Python
 date: "2022-12-24"
 published: true
-tags: ['python', 'async','asyncio']
+tags: ['python', 'async']
 coverImage: "/assets/blog/images/asyncio.webp"
 excerpt: "Asynchronous programming has become increasingly popular in recent years, as it allows you to write code that can perform multiple tasks concurrently."
+description: "How to turn blocking Python code into async code with asyncio and async/await: finding blocking calls, rewriting them, and best practices to follow afterward."
 ogImage:
   url: "/assets/blog/images/asyncio.webp"
 ---

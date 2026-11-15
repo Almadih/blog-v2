@@ -1,10 +1,11 @@
 ---
-title: Async Distributed tasks in python with Celery
+title: Async Distributed Tasks in Python with Celery
 date: "2022-05-02"
 published: true
 tags: ['python', 'celery']
 coverImage: "/assets/blog/images/celery.png"
 excerpt: "I was working on a project where we need to collect data from domains, since..."
+description: "How I used Celery to spread data collection for thousands of domains across many machines in Python, after Ray proved unreliable, with setup steps and examples."
 ogImage:
   url: "/assets/blog/images/celery.png"
 ---

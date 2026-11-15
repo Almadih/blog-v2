@@ -2,9 +2,10 @@
 title: Server-Side Data Fetching + URL Search Params with nuqs in Next.js
 date: "2025-08-15"
 published: true
-tags: ['react', 'nextjs','typescript']
+tags: ['react', 'nextjs', 'typescript']
 coverImage: "/assets/blog/images/nextjs.webp"
 excerpt: "When building dashboards in Next.js, you often need filters such as search bars, dropdowns, and pagination controls..."
+description: "How to use nuqs to manage URL search params in a Next.js dashboard with server-side data fetching, while keeping search inputs responsive and code tidy."
 ogImage:
   url: "/assets/blog/images/nextjs.webp"
 ---

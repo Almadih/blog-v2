@@ -5,6 +5,7 @@ published: true
 tags: ['laravel', 'translation', 'async', 'queues']
 coverImage: "/assets/blog/images/translation-workflow.png"
 excerpt: "Building a seamless multi-lingual experience requires more than just API calls. Explore how we implemented a distributed, event-driven translation engine using Laravel Queues, Caching, and Smart Batching."
+description: "How we built a distributed, event-driven translation pipeline in Laravel using queues, caching, and smart batching to translate exam questions at scale."
 ogImage:
   url: "/assets/blog/images/translation-workflow.png"
 ---

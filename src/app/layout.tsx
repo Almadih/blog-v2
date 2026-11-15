@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import cn from "classnames";
 
 import "./globals.css";
-import { DEFAULT_OG_IMAGE } from "@/lib/site";
+import { DEFAULT_OG_IMAGE, absoluteUrl } from "@/lib/site";
 import { jsonLdScript } from "@/lib/json-ld";
 
 const inter = Inter({
@@ -84,15 +84,35 @@ const jsonLd = {
       },
     },
     {
+      "@type": "Blog",
+      "@id": "https://blog.almadih.dev/#blog",
+      url: "https://blog.almadih.dev",
+      name: "Mohamed Almadih — Engineering Journal",
+      publisher: { "@id": "https://blog.almadih.dev/#person" },
+      author: { "@id": "https://blog.almadih.dev/#person" },
+    },
+    {
       "@type": "Person",
       "@id": "https://blog.almadih.dev/#person",
       name: "Mohamed Almadih",
-      url: "https://blog.almadih.dev",
+      url: "https://blog.almadih.dev/about",
+      image: absoluteUrl("/assets/blog/authors/almadih2.png"),
       jobTitle: "Software Engineer",
       sameAs: [
         "https://github.com/almadih",
-        "https://twitter.com/almadih_desu",
+        "https://x.com/almadih_desu",
         "https://linkedin.com/in/almadih",
+        "https://almadih.dev",
+      ],
+      knowsAbout: [
+        "Distributed systems",
+        "PostgreSQL",
+        "Python",
+        "Celery",
+        "Next.js",
+        "Cloudflare Workers",
+        "Laravel",
+        "Software architecture",
       ],
     },
   ],
@@ -141,6 +161,7 @@ export default function RootLayout({
         />
         <meta name="theme-color" content="#09090b" />
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+        <link rel="preconnect" href="https://stats.almadih.dev" />
         <script
           defer
           src="https://stats.almadih.dev/t.js"
