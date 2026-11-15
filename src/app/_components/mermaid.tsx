@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import mermaid from "mermaid";
+import React, { useEffect, useRef } from "react";
 
 const DEFAULT_CONFIG = {
   startOnLoad: true,
@@ -42,14 +41,27 @@ const DEFAULT_CONFIG = {
 };
 
 const Mermaid = ({ chart, config }: { chart: string; config?: any }) => {
-  mermaid.initialize({ ...DEFAULT_CONFIG, ...config });
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    mermaid.contentLoaded();
-  }, [config]);
+    let cancelled = false;
+    // Loaded on demand so posts without diagrams don't ship the mermaid bundle.
+    import("mermaid").then(({ default: mermaid }) => {
+      if (cancelled || !ref.current) return;
+      mermaid.initialize({ ...DEFAULT_CONFIG, ...config, startOnLoad: false });
+      mermaid.run({ nodes: [ref.current] });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [chart, config]);
 
   if (!chart) return null;
-  return <div className="mermaid">{chart}</div>;
+  return (
+    <div ref={ref} className="mermaid">
+      {chart}
+    </div>
+  );
 };
 
 export default Mermaid;
